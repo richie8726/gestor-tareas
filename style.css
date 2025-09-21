@@ -1,0 +1,189 @@
+/* 🎨 Tipografía moderna y suave */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #fceabb, #f8b500);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 📦 Contenedor */
+.container {
+  background: #fffaf0;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  width: 380px;
+  text-align: center;
+}
+
+/* 📝 Título */
+h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+/* ✏️ Input + botón */
+.input-group {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+#tarea-input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #f8b500;
+  border-radius: 10px 0 0 10px;
+  outline: none;
+  font-size: 1rem;
+  background: #fffdf6;
+}
+
+#agregar-btn {
+  padding: 12px;
+  border: none;
+  background: #f8b500;
+  color: white;
+  font-weight: 600;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#agregar-btn:hover {
+  background: #e09e00;
+}
+
+/* 🔘 Filtros */
+.filtros {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.filtro {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #ffe29f;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.filtro:hover {
+  background: #f8b500;
+  color: white;
+}
+
+.filtro.activo {
+  background: #ffb347;
+  color: white;
+}
+
+/* 📋 Lista de tareas */
+#lista-tareas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tarea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fffdf6;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #f3d9b1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarea:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ✅ Completadas */
+.tarea.completada span {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.fecha {
+  font-size: 0.8em;
+  color: #888;
+  margin-left: 8px;
+  font-style: italic;
+}
+
+/* ❌ Botón eliminar */
+.tarea button {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #e57373;
+  transition: transform 0.2s ease;
+}
+
+.tarea button:hover {
+  transform: scale(1.2);
+}
+
+/* 🎬 Animaciones para tareas */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(10px); }
+}
+
+/* Cuando se agrega una tarea */
+.tarea {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* Clase temporal para eliminar con animación */
+.tarea.eliminando {
+  animation: fadeOut 0.4s ease forwards;
+}
+/* animación al aparecer */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* animación al desaparecer */
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(10px); }
+}
+
+/* aplicar animación al crear */
+.tarea {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* clase temporal para eliminar con animación */
+.tarea.eliminando {
+  animation: fadeOut 0.4s ease forwards;
+}
+
+/* transición suave al tildar (mejora visual) */
+.tarea span {
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
