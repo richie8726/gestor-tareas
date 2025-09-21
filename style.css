@@ -1,96 +1,90 @@
-/* 🎨 Tipografía moderna y suave */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #fceabb, #f8b500);
-  margin: 0;
-  padding: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, #f8e8f8, #e6f3ff);
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
 }
 
-/* 📦 Contenedor */
-.container {
-  background: #fffaf0;
+.contenedor {
+  background: #ffffffcc;
   padding: 25px;
-  border-radius: 16px;
+  border-radius: 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  width: 380px;
-  text-align: center;
+  width: 420px;
+  animation: fadeIn 0.6s ease-in-out;
+  backdrop-filter: blur(8px);
 }
 
-/* 📝 Título */
 h1 {
-  font-size: 1.8rem;
-  font-weight: 600;
+  text-align: center;
+  color: #6a5acd;
   margin-bottom: 20px;
-  color: #444;
 }
 
-/* ✏️ Input + botón */
-.input-group {
+.entrada {
   display: flex;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 #tarea-input {
   flex: 1;
   padding: 12px;
-  border: 2px solid #f8b500;
-  border-radius: 10px 0 0 10px;
+  border: 2px solid #d8b4fe;
+  border-radius: 8px;
   outline: none;
-  font-size: 1rem;
-  background: #fffdf6;
+  transition: border 0.3s ease;
+}
+
+#tarea-input:focus {
+  border-color: #6a5acd;
 }
 
 #agregar-btn {
-  padding: 12px;
-  border: none;
-  background: #f8b500;
+  padding: 12px 15px;
+  background: #a78bfa;
   color: white;
-  font-weight: 600;
-  border-radius: 0 10px 10px 0;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 #agregar-btn:hover {
-  background: #e09e00;
+  background: #7c3aed;
 }
 
-/* 🔘 Filtros */
 .filtros {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  gap: 10px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
-.filtro {
-  padding: 8px 14px;
+.filtros .filtro {
+  margin: 0 5px;
+  padding: 6px 12px;
   border: none;
-  border-radius: 8px;
-  background: #ffe29f;
-  color: #444;
+  background: #e0e7ff;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
-.filtro:hover {
-  background: #f8b500;
+.filtros .filtro:hover {
+  background: #c7d2fe;
+}
+
+.filtros .activo {
+  background: #6a5acd;
   color: white;
+  font-weight: bold;
 }
 
-.filtro.activo {
-  background: #ffb347;
-  color: white;
-}
-
-/* 📋 Lista de tareas */
 #lista-tareas {
   list-style: none;
   padding: 0;
@@ -99,91 +93,39 @@ h1 {
 
 .tarea {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #fffdf6;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  border: 1px solid #f3d9b1;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #fef9ff;
+  border: 1px solid #e9d5ff;
+  border-radius: 8px;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
-.tarea:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* ✅ Completadas */
 .tarea.completada span {
   text-decoration: line-through;
-  color: #999;
+  color: #9ca3af;
 }
 
-.fecha {
+.tarea .fecha {
   font-size: 0.8em;
-  color: #888;
+  color: #a78bfa;
   margin-left: 8px;
   font-style: italic;
 }
 
-/* ❌ Botón eliminar */
-.tarea button {
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #e57373;
-  transition: transform 0.2s ease;
-}
-
-.tarea button:hover {
-  transform: scale(1.2);
-}
-
-/* 🎬 Animaciones para tareas */
+/* Animaciones */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(10px); }
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(50px); }
 }
 
-/* Cuando se agrega una tarea */
-.tarea {
-  animation: fadeIn 0.4s ease forwards;
-}
-
-/* Clase temporal para eliminar con animación */
-.tarea.eliminando {
-  animation: fadeOut 0.4s ease forwards;
-}
-/* animación al aparecer */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* animación al desaparecer */
-@keyframes fadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(10px); }
-}
-
-/* aplicar animación al crear */
-.tarea {
-  animation: fadeIn 0.4s ease forwards;
-}
-
-/* clase temporal para eliminar con animación */
-.tarea.eliminando {
-  animation: fadeOut 0.4s ease forwards;
-}
-
-/* transición suave al tildar (mejora visual) */
-.tarea span {
-  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+.eliminando {
+  animation: fadeOut 0.4s forwards;
 }

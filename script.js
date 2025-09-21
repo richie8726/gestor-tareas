@@ -9,11 +9,6 @@ let filtroActual = "todas";
 // Cargar tareas desde LocalStorage al inicio
 document.addEventListener("DOMContentLoaded", cargarTareas);
 
-// Permitir Enter para agregar tarea
-inputTarea.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") btnAgregar.click();
-});
-
 // Evento: Agregar tarea
 btnAgregar.addEventListener("click", () => {
   const texto = inputTarea.value.trim();
@@ -60,16 +55,18 @@ function agregarTarea(texto, completada = false, fecha = null) {
 
   // Evento: eliminar tarea con animación
   btnEliminar.addEventListener("click", () => {
-    // añadimos clase para animación CSS (fadeOut)
     li.classList.add("eliminando");
-    // luego de la animación, removemos y guardamos
     setTimeout(() => {
-      li.remove();
+      listaTareas.removeChild(li);
       guardarTareas();
-    }, 400); // 400ms -> debe coincidir con la duración de la animación CSS
+    }, 400);
   });
 
-  // Construir el li
+  // Evento: editar tarea con doble clic
+  spanTexto.addEventListener("dblclick", () => {
+    editarTarea(spanTexto, li);
+  });
+
   li.appendChild(checkbox);
   li.appendChild(spanTexto);
   li.appendChild(spanFecha);
@@ -83,15 +80,13 @@ function agregarTarea(texto, completada = false, fecha = null) {
 function guardarTareas() {
   const tareas = [];
   document.querySelectorAll(".tarea").forEach(li => {
-    // Obtenemos el span que NO sea la fecha (evita confundir texto con fecha)
-    const spanTexto = li.querySelector('span:not(.fecha)');
-    const spanFecha = li.querySelector('.fecha');
-    const texto = spanTexto ? spanTexto.textContent.trim() : "";
-    const fecha = spanFecha ? spanFecha.textContent.replace(/[()]/g, "").trim() : "";
+    const spanTexto = li.querySelector("span:not(.fecha)");
+    const spanFecha = li.querySelector(".fecha");
+
     tareas.push({
-      texto,
+      texto: spanTexto.textContent,
       completada: li.classList.contains("completada"),
-      fecha
+      fecha: spanFecha.textContent.replace(/[()]/g, "").trim()
     });
   });
   localStorage.setItem("tareas", JSON.stringify(tareas));
@@ -99,9 +94,6 @@ function guardarTareas() {
 
 // Cargar tareas desde LocalStorage
 function cargarTareas() {
-  // Limpiamos la lista para evitar duplicados (útil cuando recargas el script)
-  listaTareas.innerHTML = "";
-
   const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
   tareas.forEach(t => agregarTarea(t.texto, t.completada, t.fecha));
 }
@@ -132,3 +124,38 @@ botonesFiltro.forEach(boton => {
     mostrarTareas();
   });
 });
+
+// Función para editar tarea
+function editarTarea(spanTexto, li) {
+  const textoActual = spanTexto.textContent;
+  const inputEdicion = document.createElement("input");
+  inputEdicion.type = "text";
+  inputEdicion.value = textoActual;
+
+  li.replaceChild(inputEdicion, spanTexto);
+  inputEdicion.focus();
+
+  inputEdicion.addEventListener("blur", () => {
+    guardarEdicion(inputEdicion, li);
+  });
+
+  inputEdicion.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      guardarEdicion(inputEdicion, li);
+    }
+  });
+}
+
+function guardarEdicion(inputEdicion, li) {
+  const nuevoTexto = inputEdicion.value.trim();
+  const spanTexto = document.createElement("span");
+  spanTexto.textContent = nuevoTexto || "Tarea sin título";
+
+  // Permitir volver a editar con doble clic
+  spanTexto.addEventListener("dblclick", () => {
+    editarTarea(spanTexto, li);
+  });
+
+  li.replaceChild(spanTexto, inputEdicion);
+  guardarTareas();
+}
