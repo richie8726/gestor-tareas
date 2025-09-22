@@ -7,9 +7,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="contenedor">
-    <h1>📋 App Tareas 2</h1>
-    <div class="entrada">
+  <div class="container">
+    <h1>Gestor de Tareas</h1>
+    
+    <div class="input-group">
       <input type="text" id="tarea-input" placeholder="Escribe una tarea...">
       <button id="agregar-btn">Agregar</button>
     </div>
@@ -21,7 +22,11 @@
     </div>
 
     <ul id="lista-tareas"></ul>
+
+    <!-- 🔹 Contador de tareas -->
+    <div id="contador" class="contador"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>

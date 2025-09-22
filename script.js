@@ -1,70 +1,92 @@
-// Seleccionar elementos del DOM
+// Selección de elementos
 const inputTarea = document.getElementById("tarea-input");
 const btnAgregar = document.getElementById("agregar-btn");
 const listaTareas = document.getElementById("lista-tareas");
 const botonesFiltro = document.querySelectorAll(".filtro");
+const contador = document.getElementById("contador");
 
 let filtroActual = "todas";
 
-// Cargar tareas desde LocalStorage al inicio
+// Cargar tareas al inicio
 document.addEventListener("DOMContentLoaded", cargarTareas);
 
-// Evento: Agregar tarea
+// Permitir Enter para agregar
+inputTarea.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") btnAgregar.click();
+});
+
+// Agregar tarea
 btnAgregar.addEventListener("click", () => {
   const texto = inputTarea.value.trim();
   if (texto !== "") {
-    const fecha = new Date().toLocaleString(); // Fecha + hora
+    const fecha = new Date().toLocaleString();
     agregarTarea(texto, false, fecha);
     guardarTareas();
     inputTarea.value = "";
   }
 });
 
-// Función: agregar tarea
+// Editar tarea
+function editarTarea(span, li) {
+  const textoOriginal = span.textContent;
+  const inputEdicion = document.createElement("input");
+  inputEdicion.type = "text";
+  inputEdicion.value = textoOriginal;
+  inputEdicion.classList.add("edicion");
+
+  li.replaceChild(inputEdicion, span);
+  inputEdicion.focus();
+
+  inputEdicion.addEventListener("blur", () => {
+    guardarEdicion(inputEdicion, span, li);
+  });
+
+  inputEdicion.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      guardarEdicion(inputEdicion, span, li);
+    }
+  });
+}
+
+// Crear tarea
 function agregarTarea(texto, completada = false, fecha = null) {
   const li = document.createElement("li");
   li.classList.add("tarea");
   if (completada) li.classList.add("completada");
 
-  // Checkbox
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.checked = completada;
 
-  // Texto de la tarea
   const spanTexto = document.createElement("span");
   spanTexto.textContent = texto;
 
-  // Fecha
+  spanTexto.addEventListener("dblclick", () => {
+    editarTarea(spanTexto, li);
+  });
+
   const spanFecha = document.createElement("span");
   spanFecha.textContent = ` (${fecha || new Date().toLocaleString()})`;
   spanFecha.classList.add("fecha");
 
-  // Botón eliminar
   const btnEliminar = document.createElement("button");
   btnEliminar.textContent = "❌";
   btnEliminar.style.marginLeft = "10px";
   btnEliminar.style.cursor = "pointer";
 
-  // Evento: marcar como completada con checkbox
   checkbox.addEventListener("change", () => {
     li.classList.toggle("completada", checkbox.checked);
     guardarTareas();
     mostrarTareas();
   });
 
-  // Evento: eliminar tarea con animación
   btnEliminar.addEventListener("click", () => {
     li.classList.add("eliminando");
     setTimeout(() => {
-      listaTareas.removeChild(li);
+      li.remove();
       guardarTareas();
+      mostrarTareas();
     }, 400);
-  });
-
-  // Evento: editar tarea con doble clic
-  spanTexto.addEventListener("dblclick", () => {
-    editarTarea(spanTexto, li);
   });
 
   li.appendChild(checkbox);
@@ -76,29 +98,31 @@ function agregarTarea(texto, completada = false, fecha = null) {
   mostrarTareas();
 }
 
-// Guardar tareas en LocalStorage
+// Guardar en localStorage
 function guardarTareas() {
   const tareas = [];
   document.querySelectorAll(".tarea").forEach(li => {
-    const spanTexto = li.querySelector("span:not(.fecha)");
-    const spanFecha = li.querySelector(".fecha");
-
+    const spanTexto = li.querySelector('span:not(.fecha)');
+    const spanFecha = li.querySelector('.fecha');
+    const texto = spanTexto ? spanTexto.textContent.trim() : "";
+    const fecha = spanFecha ? spanFecha.textContent.replace(/[()]/g, "").trim() : "";
     tareas.push({
-      texto: spanTexto.textContent,
+      texto,
       completada: li.classList.contains("completada"),
-      fecha: spanFecha.textContent.replace(/[()]/g, "").trim()
+      fecha
     });
   });
   localStorage.setItem("tareas", JSON.stringify(tareas));
 }
 
-// Cargar tareas desde LocalStorage
+// Cargar de localStorage
 function cargarTareas() {
+  listaTareas.innerHTML = "";
   const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
   tareas.forEach(t => agregarTarea(t.texto, t.completada, t.fecha));
 }
 
-// Filtrar y mostrar tareas
+// Mostrar según filtro
 function mostrarTareas() {
   const tareas = document.querySelectorAll(".tarea");
   tareas.forEach(t => {
@@ -113,9 +137,10 @@ function mostrarTareas() {
         t.style.display = "flex";
     }
   });
+  actualizarContador();
 }
 
-// Eventos de los botones de filtro
+// Filtros
 botonesFiltro.forEach(boton => {
   boton.addEventListener("click", () => {
     botonesFiltro.forEach(b => b.classList.remove("activo"));
@@ -125,37 +150,20 @@ botonesFiltro.forEach(boton => {
   });
 });
 
-// Función para editar tarea
-function editarTarea(spanTexto, li) {
-  const textoActual = spanTexto.textContent;
-  const inputEdicion = document.createElement("input");
-  inputEdicion.type = "text";
-  inputEdicion.value = textoActual;
+// Actualizar contador
+function actualizarContador() {
+  const tareas = document.querySelectorAll(".tarea");
+  const total = tareas.length;
+  const completadas = document.querySelectorAll(".tarea.completada").length;
+  const pendientes = total - completadas;
 
-  li.replaceChild(inputEdicion, spanTexto);
-  inputEdicion.focus();
-
-  inputEdicion.addEventListener("blur", () => {
-    guardarEdicion(inputEdicion, li);
-  });
-
-  inputEdicion.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      guardarEdicion(inputEdicion, li);
-    }
-  });
+  contador.textContent = `Pendientes: ${pendientes} | Completadas: ${completadas} | Total: ${total}`;
 }
 
-function guardarEdicion(inputEdicion, li) {
-  const nuevoTexto = inputEdicion.value.trim();
-  const spanTexto = document.createElement("span");
-  spanTexto.textContent = nuevoTexto || "Tarea sin título";
-
-  // Permitir volver a editar con doble clic
-  spanTexto.addEventListener("dblclick", () => {
-    editarTarea(spanTexto, li);
-  });
-
-  li.replaceChild(spanTexto, inputEdicion);
+// Guardar edición
+function guardarEdicion(inputEdicion, span, li) {
+  const nuevoTexto = inputEdicion.value.trim() || span.textContent;
+  span.textContent = nuevoTexto;
+  li.replaceChild(span, inputEdicion);
   guardarTareas();
 }
