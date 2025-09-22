@@ -16,9 +16,11 @@ Incluye filtros (pendientes, completadas, todas), guardado en LocalStorage, edic
 
 ---
 
-## 🚀 Vista previa
 
-![preview](./preview.png)
+## 📸 Vista previa
+
+![Captura de la app](./assets/screenshot.png)
+
 
 > *(Captura ilustrativa, agregá tu propia captura guardando el proyecto y subiéndola como `preview.png` a la raíz del repo).*
 
