@@ -1,34 +1,109 @@
+/* 🎨 Tipografía moderna */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --fondo: linear-gradient(135deg, #fceabb, #f8b500);
+  --container: #fffaf0;
+  --texto: #444;
+  --boton: #f8b500;
+  --boton-hover: #e09e00;
+  --filtro: #ffe29f;
+  --filtro-activo: #ffb347;
+  --completada: #999;
+  --tarea: #fffdf6;
+}
+
+/* 🌙 Dark mode variables */
+body.dark {
+  --fondo: linear-gradient(135deg, #2c3e50, #4ca1af);
+  --container: #1e1e1e;
+  --texto: #f2f2f2;
+  --boton: #4ca1af;
+  --boton-hover: #3b7d8a;
+  --filtro: #555;
+  --filtro-activo: #4ca1af;
+  --completada: #bbb;
+  --tarea: #2a2a2a; /* <- ahora las tareas se adaptan */
+}
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #fceabb, #f8b500);
+  background: var(--fondo);
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  transition: background 0.5s ease, color 0.5s ease;
+  transition: background 0.4s ease;
 }
 
+/* 📦 Contenedor */
 .container {
-  background: #fffaf0;
+  background: var(--container);
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  width: 420px;
+  width: 380px;
   text-align: center;
-  transition: background 0.5s ease, color 0.5s ease;
+  transition: background 0.4s ease;
 }
 
+/* 📝 Título */
 h1 {
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #444;
+  color: var(--texto);
 }
 
+/* Toggle Dark Mode */
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 22px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 22px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--boton);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* ✏️ Input + botón */
 .input-group {
   display: flex;
   margin-bottom: 20px;
@@ -37,7 +112,7 @@ h1 {
 #tarea-input {
   flex: 1;
   padding: 12px;
-  border: 2px solid #f8b500;
+  border: 2px solid var(--boton);
   border-radius: 10px 0 0 10px;
   outline: none;
   font-size: 1rem;
@@ -47,7 +122,7 @@ h1 {
 #agregar-btn {
   padding: 12px;
   border: none;
-  background: #f8b500;
+  background: var(--boton);
   color: white;
   font-weight: 600;
   border-radius: 0 10px 10px 0;
@@ -56,19 +131,14 @@ h1 {
 }
 
 #agregar-btn:hover {
-  background: #e09e00;
+  background: var(--boton-hover);
 }
 
-.acciones {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
+/* 🔘 Filtros */
 .filtros {
   display: flex;
   justify-content: center;
+  margin-bottom: 15px;
   gap: 10px;
 }
 
@@ -76,49 +146,24 @@ h1 {
   padding: 8px 14px;
   border: none;
   border-radius: 8px;
-  background: #ffe29f;
-  color: #444;
+  background: var(--filtro);
+  color: var(--texto);
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
 }
 
 .filtro:hover {
-  background: #f8b500;
+  background: var(--boton);
   color: white;
 }
 
 .filtro.activo {
-  background: #ffb347;
+  background: var(--filtro-activo);
   color: white;
 }
 
-#eliminar-completadas,
-#modo-toggle {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-#eliminar-completadas {
-  background: #f77d7d;
-  color: white;
-}
-#eliminar-completadas:hover {
-  background: #d94c4c;
-}
-
-#modo-toggle {
-  background: #444;
-  color: white;
-}
-#modo-toggle:hover {
-  background: #222;
-}
-
+/* 📋 Lista de tareas */
 #lista-tareas {
   list-style: none;
   padding: 0;
@@ -127,21 +172,14 @@ h1 {
 
 .tarea {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background: #fffdf6;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--tarea);
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 10px;
   border: 1px solid #f3d9b1;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.5s ease, color 0.5s ease;
-}
-
-.tarea-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.4s ease;
 }
 
 .tarea:hover {
@@ -151,9 +189,10 @@ h1 {
 
 .tarea.completada span {
   text-decoration: line-through;
-  color: #999;
+  color: var(--completada);
 }
 
+/* Fecha */
 .fecha {
   font-size: 0.8em;
   color: #888;
@@ -161,6 +200,7 @@ h1 {
   font-style: italic;
 }
 
+/* ❌ Botón eliminar */
 .tarea button {
   background: transparent;
   border: none;
@@ -174,57 +214,21 @@ h1 {
   transform: scale(1.2);
 }
 
-.contador {
-  margin-top: 15px;
-  font-size: 0.9rem;
-  color: #555;
-  font-weight: 500;
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.subtareas {
-  margin-top: 10px;
-  padding-left: 20px;
-  width: 100%;
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(10px); }
 }
 
-.subtareas li {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
+.tarea { animation: fadeIn 0.4s ease forwards; }
+.tarea.eliminando { animation: fadeOut 0.4s ease forwards; }
 
-.subtareas input[type="text"] {
-  flex: 1;
-  padding: 5px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-/* Colores */
-.tarea.color-rojo { border-left: 8px solid #e74c3c; }
-.tarea.color-verde { border-left: 8px solid #27ae60; }
-.tarea.color-azul { border-left: 8px solid #2980b9; }
-
-/* 🌙 Modo oscuro */
-body.dark {
-  background: linear-gradient(135deg, #2c3e50, #4ca1af);
-  color: #eee;
-}
-
-body.dark .container {
-  background: #2b2b2b;
-  color: #eee;
-}
-
-body.dark .tarea {
-  background: #3a3a3a;
-  border: 1px solid #555;
-}
-
-body.dark .filtro {
-  background: #555;
-  color: #eee;
-}
-body.dark .filtro.activo {
-  background: #888;
+.ordenamiento {
+  margin-bottom: 15px;
+  color: var(--texto);
 }
