@@ -5,30 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>App Tareas 2</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Fuente aesthetic -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>Gestor de Tareas</h1>
-    
-    <div class="input-group">
-      <input type="text" id="tarea-input" placeholder="Escribe una tarea...">
+  <div class="contenedor">
+    <h1>✨ App Tareas 2 ✨</h1>
+
+    <!-- Input + botón -->
+    <div class="agregar-tarea">
+      <input type="text" id="tarea-input" placeholder="Escribe una nueva tarea...">
       <button id="agregar-btn">Agregar</button>
     </div>
 
-    <div class="acciones">
-      <div class="filtros">
-        <button class="filtro activo" data-filtro="todas">Todas</button>
-        <button class="filtro" data-filtro="pendientes">Pendientes</button>
-        <button class="filtro" data-filtro="completadas">Completadas</button>
-      </div>
-
-      <button id="eliminar-completadas">Eliminar completadas</button>
-      <button id="modo-toggle">🌙 Modo Oscuro</button>
+    <!-- Filtros -->
+    <div class="filtros">
+      <button class="filtro activo" data-filtro="todas">Todas</button>
+      <button class="filtro" data-filtro="pendientes">Pendientes</button>
+      <button class="filtro" data-filtro="completadas">Completadas</button>
     </div>
 
+    <!-- Lista -->
     <ul id="lista-tareas"></ul>
-
-    <div id="contador" class="contador"></div>
   </div>
 
   <script src="script.js"></script>
