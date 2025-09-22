@@ -15,10 +15,18 @@
       <button id="agregar-btn">Agregar</button>
     </div>
 
-    <div class="filtros">
-      <button class="filtro activo" data-filtro="todas">Todas</button>
-      <button class="filtro" data-filtro="pendientes">Pendientes</button>
-      <button class="filtro" data-filtro="completadas">Completadas</button>
+    <div class="acciones">
+      <div class="filtros">
+        <button class="filtro activo" data-filtro="todas">Todas</button>
+        <button class="filtro" data-filtro="pendientes">Pendientes</button>
+        <button class="filtro" data-filtro="completadas">Completadas</button>
+      </div>
+
+      <!-- 🔘 Botón para eliminar completadas -->
+      <button id="eliminar-completadas">Eliminar completadas</button>
+
+      <!-- 🌙 Toggle modo oscuro -->
+      <button id="modo-toggle">🌙 Modo Oscuro</button>
     </div>
 
     <ul id="lista-tareas"></ul>
