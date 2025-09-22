@@ -1,33 +1,37 @@
-# 📋 App-Tareas 2
+# ✅ App Tareas 2
 
-Un gestor de tareas simple y **aesthetic**, hecho con **HTML, CSS y JavaScript**.  
-Incluye filtros (pendientes, completadas, todas), guardado en LocalStorage, edición de tareas y animaciones suaves.
-
----
-
-## ✨ Características
-
-- ✅ Agregar, editar y eliminar tareas.  
-- ⏱️ Cada tarea muestra fecha y hora de creación.  
-- 🎯 Filtros por pendientes, completadas o todas.  
-- 💾 Guardado automático en el navegador (LocalStorage).  
-- 🎬 Animaciones al agregar o eliminar.  
-- 🎨 Estilo *aesthetic* con colores pastel y tipografía moderna.  
+Un gestor de tareas moderno, minimalista y estético.  
+Permite agregar, editar, eliminar, completar y filtrar tareas.  
+Además, guarda las tareas en **LocalStorage** para no perderlas al recargar la página.  
 
 ---
 
+## 🚀 Funcionalidades
 
-## 📸 Vista previa
+- ✨ **Agregar nuevas tareas** con fecha y hora automática.  
+- 🖊️ **Editar tareas** con doble clic.  
+- ✅ **Marcar como completadas** con un checkbox.  
+- ❌ **Eliminar tareas** con animación suave.  
+- 🎚️ **Filtros de tareas**: todas, pendientes, completadas.  
+- 💾 **Persistencia en LocalStorage** (las tareas se mantienen al recargar).  
+- 🎨 **Diseño aesthetic pastel** con modo oscuro adaptado.  
+- 🎬 **Animaciones** al crear y eliminar tareas.  
+
+---
+
+## 🖼️ Vista Previa
 
 ![Captura de la app](./assets/screenshot.png)
 
+---
 
-> *(Captura ilustrativa, agregá tu propia captura guardando el proyecto y subiéndola como `preview.png` a la raíz del repo).*
+## 🛠️ Tecnologías utilizadas
+
+- **HTML5**  
+- **CSS3** (con estilos modernos y animaciones)  
+- **JavaScript (Vanilla)**  
 
 ---
 
-## 🛠️ Instalación y uso
+## 📂 Estructura del proyecto
 
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/TU-USUARIO/app-tareas-2.git
