@@ -12,13 +12,12 @@ body {
   transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* 📦 Contenedor */
 .container {
   background: #fffaf0;
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  width: 380px;
+  width: 420px;
   text-align: center;
   transition: background 0.5s ease, color 0.5s ease;
 }
@@ -60,7 +59,6 @@ h1 {
   background: #e09e00;
 }
 
-/* 🔘 Acciones */
 .acciones {
   display: flex;
   flex-direction: column;
@@ -95,7 +93,6 @@ h1 {
   color: white;
 }
 
-/* Botones extras */
 #eliminar-completadas,
 #modo-toggle {
   padding: 8px 14px;
@@ -122,7 +119,6 @@ h1 {
   background: #222;
 }
 
-/* 📋 Lista */
 #lista-tareas {
   list-style: none;
   padding: 0;
@@ -131,14 +127,21 @@ h1 {
 
 .tarea {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   background: #fffdf6;
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 10px;
   border: 1px solid #f3d9b1;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.5s ease, color 0.5s ease;
+}
+
+.tarea-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .tarea:hover {
@@ -171,7 +174,6 @@ h1 {
   transform: scale(1.2);
 }
 
-/* 🔢 Contador */
 .contador {
   margin-top: 15px;
   font-size: 0.9rem;
@@ -179,24 +181,29 @@ h1 {
   font-weight: 500;
 }
 
-/* 🎬 Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.subtareas {
+  margin-top: 10px;
+  padding-left: 20px;
+  width: 100%;
 }
 
-@keyframes fadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(10px); }
+.subtareas li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.tarea {
-  animation: fadeIn 0.4s ease forwards;
+.subtareas input[type="text"] {
+  flex: 1;
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-.tarea.eliminando {
-  animation: fadeOut 0.4s ease forwards;
-}
+/* Colores */
+.tarea.color-rojo { border-left: 8px solid #e74c3c; }
+.tarea.color-verde { border-left: 8px solid #27ae60; }
+.tarea.color-azul { border-left: 8px solid #2980b9; }
 
 /* 🌙 Modo oscuro */
 body.dark {
