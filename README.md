@@ -20,24 +20,37 @@ Incluye **filtros dinámicos**, almacenamiento en **LocalStorage**, **animacione
 
 ## 📂 Estructura del proyecto
 
-```plaintext
 app-tareas-2/
 │── index.html   # Estructura principal
 │── style.css    # Estilos (claro/oscuro + responsive)
 │── script.js    # Lógica en JavaScript
 │── README.md    # Documentación
+│── assets/      # Capturas de pantalla
 
-📸 Captura de pantalla
-![Captura de la app](./assets/screenshot.png)
-![Captura de la app](./assets/screenshot1.png)
-![Captura de la app](./assets/screenshot2.png)
+---
 
-🛠️ Cómo ejecutar el proyecto
+## 📸 Capturas de pantalla
 
-Cloná el repositorio: git clone https://github.com/TU-USUARIO/app-tareas-2.git
+![Captura de la app](./assets/screenshot.png)  
+![Captura de la app](./assets/screenshot1.PNG)  
+![Captura de la app](./assets/screenshot2.PNG)  
 
+---
 
-👨‍💻 Autor
+## 🛠️ Cómo ejecutar el proyecto
 
-Desarrollado por Ponce Ricardo Andrés 🚀
+1. Cloná el repositorio:  
+   git clone https://github.com/TU-USUARIO/app-tareas-2.git
+
+2. Entrá en la carpeta del proyecto:  
+   cd app-tareas-2
+
+3. Abrí el archivo index.html en tu navegador.  
+👉 No se necesita instalar nada más, ya que es un proyecto con HTML, CSS y JS puro.  
+
+---
+
+## 👨‍💻 Autor
+
+Desarrollado por **Ponce Ricardo Andrés** 🚀  
 Proyecto creado con fines de práctica y aprendizaje.
