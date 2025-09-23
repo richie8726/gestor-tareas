@@ -2,99 +2,66 @@ const inputTarea = document.getElementById("tarea-input");
 const btnAgregar = document.getElementById("agregar-btn");
 const listaTareas = document.getElementById("lista-tareas");
 const botonesFiltro = document.querySelectorAll(".filtro");
-const selectOrden = document.getElementById("orden");
-const toggleModo = document.getElementById("modo-toggle");
+const modoToggle = document.getElementById("modo-toggle");
+const modoTexto = document.getElementById("modo-texto");
 
 let filtroActual = "todas";
-let tareas = [];
 
-// Cargar tareas y modo al iniciar
 document.addEventListener("DOMContentLoaded", () => {
   cargarTareas();
   if (localStorage.getItem("modo") === "dark") {
     document.body.classList.add("dark");
-    toggleModo.checked = true;
+    modoToggle.checked = true;
+    modoTexto.textContent = "🌙 Modo Oscuro";
   }
 });
 
-// Permitir Enter
 inputTarea.addEventListener("keyup", (e) => {
   if (e.key === "Enter") btnAgregar.click();
 });
 
-// Agregar tarea
 btnAgregar.addEventListener("click", () => {
   const texto = inputTarea.value.trim();
   if (texto !== "") {
     const fecha = new Date().toLocaleString();
-    tareas.push({ texto, completada: false, fecha });
+    agregarTarea(texto, false, fecha);
     guardarTareas();
     inputTarea.value = "";
-    mostrarTareas();
   }
 });
 
-// Cambiar modo
-toggleModo.addEventListener("change", () => {
-  document.body.classList.toggle("dark", toggleModo.checked);
-  localStorage.setItem("modo", toggleModo.checked ? "dark" : "light");
-});
-
-// Función: mostrar tareas con filtro y orden
-function mostrarTareas() {
-  listaTareas.innerHTML = "";
-
-  let filtradas = tareas.filter(t => {
-    if (filtroActual === "pendientes") return !t.completada;
-    if (filtroActual === "completadas") return t.completada;
-    return true;
-  });
-
-  // Ordenamiento
-  filtradas.sort((a, b) => {
-    if (selectOrden.value === "recientes")
-      return new Date(b.fecha) - new Date(a.fecha);
-    if (selectOrden.value === "antiguas")
-      return new Date(a.fecha) - new Date(b.fecha);
-    if (selectOrden.value === "pendientes")
-      return (a.completada === b.completada) ? 0 : a.completada ? 1 : -1;
-    if (selectOrden.value === "completadas")
-      return (a.completada === b.completada) ? 0 : a.completada ? -1 : 1;
-  });
-
-  filtradas.forEach((t, index) => agregarTarea(t, index));
-}
-
-// Renderizar una tarea
-function agregarTarea(t, index) {
+function agregarTarea(texto, completada = false, fecha = null) {
   const li = document.createElement("li");
   li.classList.add("tarea");
-  if (t.completada) li.classList.add("completada");
+  if (completada) li.classList.add("completada");
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.checked = t.completada;
-  checkbox.addEventListener("change", () => {
-    tareas[index].completada = checkbox.checked;
-    guardarTareas();
-    mostrarTareas();
-  });
+  checkbox.checked = completada;
 
   const spanTexto = document.createElement("span");
-  spanTexto.textContent = t.texto;
+  spanTexto.textContent = texto;
+
+  spanTexto.addEventListener("dblclick", () => editarTarea(spanTexto, li));
 
   const spanFecha = document.createElement("span");
-  spanFecha.textContent = ` (${t.fecha})`;
+  spanFecha.textContent = ` (${fecha || new Date().toLocaleString()})`;
   spanFecha.classList.add("fecha");
 
   const btnEliminar = document.createElement("button");
   btnEliminar.textContent = "❌";
+
+  checkbox.addEventListener("change", () => {
+    li.classList.toggle("completada", checkbox.checked);
+    guardarTareas();
+    mostrarTareas();
+  });
+
   btnEliminar.addEventListener("click", () => {
     li.classList.add("eliminando");
     setTimeout(() => {
-      tareas.splice(index, 1);
+      li.remove();
       guardarTareas();
-      mostrarTareas();
     }, 400);
   });
 
@@ -103,18 +70,76 @@ function agregarTarea(t, index) {
   li.appendChild(spanFecha);
   li.appendChild(btnEliminar);
   listaTareas.appendChild(li);
-}
 
-// Guardar y cargar LocalStorage
-function guardarTareas() {
-  localStorage.setItem("tareas", JSON.stringify(tareas));
-}
-function cargarTareas() {
-  tareas = JSON.parse(localStorage.getItem("tareas")) || [];
   mostrarTareas();
 }
 
-// Filtros
+function editarTarea(span, li) {
+  const textoOriginal = span.textContent;
+  const inputEdicion = document.createElement("input");
+  inputEdicion.type = "text";
+  inputEdicion.value = textoOriginal;
+  inputEdicion.classList.add("edicion");
+
+  li.replaceChild(inputEdicion, span);
+  inputEdicion.focus();
+
+  inputEdicion.addEventListener("blur", () => {
+    guardarEdicion(inputEdicion, span, li);
+  });
+
+  inputEdicion.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      guardarEdicion(inputEdicion, span, li);
+    }
+  });
+}
+
+function guardarEdicion(inputEdicion, span, li) {
+  const nuevoTexto = inputEdicion.value.trim() || span.textContent;
+  span.textContent = nuevoTexto;
+  li.replaceChild(span, inputEdicion);
+  guardarTareas();
+}
+
+function guardarTareas() {
+  const tareas = [];
+  document.querySelectorAll(".tarea").forEach(li => {
+    const spanTexto = li.querySelector('span:not(.fecha)');
+    const spanFecha = li.querySelector('.fecha');
+    const texto = spanTexto ? spanTexto.textContent.trim() : "";
+    const fecha = spanFecha ? spanFecha.textContent.replace(/[()]/g, "").trim() : "";
+    tareas.push({
+      texto,
+      completada: li.classList.contains("completada"),
+      fecha
+    });
+  });
+  localStorage.setItem("tareas", JSON.stringify(tareas));
+}
+
+function cargarTareas() {
+  listaTareas.innerHTML = "";
+  const tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+  tareas.forEach(t => agregarTarea(t.texto, t.completada, t.fecha));
+}
+
+function mostrarTareas() {
+  const tareas = document.querySelectorAll(".tarea");
+  tareas.forEach(t => {
+    switch (filtroActual) {
+      case "pendientes":
+        t.style.display = t.classList.contains("completada") ? "none" : "flex";
+        break;
+      case "completadas":
+        t.style.display = t.classList.contains("completada") ? "flex" : "none";
+        break;
+      default:
+        t.style.display = "flex";
+    }
+  });
+}
+
 botonesFiltro.forEach(boton => {
   boton.addEventListener("click", () => {
     botonesFiltro.forEach(b => b.classList.remove("activo"));
@@ -124,5 +149,13 @@ botonesFiltro.forEach(boton => {
   });
 });
 
-// Ordenamiento
-selectOrden.addEventListener("change", mostrarTareas);
+modoToggle.addEventListener("change", () => {
+  document.body.classList.toggle("dark");
+  if (modoToggle.checked) {
+    modoTexto.textContent = "🌙 Modo Oscuro";
+    localStorage.setItem("modo", "dark");
+  } else {
+    modoTexto.textContent = "🌞 Modo Claro";
+    localStorage.setItem("modo", "light");
+  }
+});

@@ -5,17 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>App Tareas 2</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Fuente aesthetic -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="contenedor">
-    <h1>✨ App Tareas 2 ✨</h1>
+  <div class="container">
+    <h1>📋 App Tareas 2</h1>
+
+    <!-- Switch Dark/Light -->
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="modo-toggle">
+        <span class="slider"></span>
+      </label>
+      <span id="modo-texto">🌞 Modo Claro</span>
+    </div>
 
     <!-- Input + botón -->
-    <div class="agregar-tarea">
-      <input type="text" id="tarea-input" placeholder="Escribe una nueva tarea...">
-      <button id="agregar-btn">Agregar</button>
+    <div class="input-group">
+      <input type="text" id="tarea-input" placeholder="Escribí una nueva tarea...">
+      <button id="agregar-btn">➕</button>
     </div>
 
     <!-- Filtros -->
